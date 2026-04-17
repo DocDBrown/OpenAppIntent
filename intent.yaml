@@ -1,15 +1,15 @@
-app-identity:
+app_identity:
   name: ""
   purpose: ""
   validation:
     acceptance: []
-user-workflows:
+user_workflows:
   - workflow: ""
     steps: [""]
   - workflow: ""
     steps: [""]
 auth:
-  tenancy-model: ""
+  tenancy_model: ""
   authentication: ""
   authorization: ""
 deployments:
@@ -18,14 +18,14 @@ deployments:
       platform: ""
       language: ""
       framework: ""
-  external-services:
+  external_services:
     service:
       - name: ""
         platform: ""
         type: ""
-        type-name-ref: ""
-secrets-provider: ""
-domain-entities-and-relations: []
+        type_name_ref: ""
+secrets_provider: ""
+domain_entities_and_relations: []
 integrations: []
 storage: []
 flows: []
