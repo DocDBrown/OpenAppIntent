@@ -24,6 +24,47 @@ constraints
 design
 ```
 
+## Base Format
+
+```
+app-identity:
+  name: ""
+  purpose: ""
+  validation:
+    acceptance:
+      - ""
+      - ""
+      - ""
+user-workflows:
+  - workflow: ""
+    steps: [""]
+  - workflow: ""
+    steps: [""]
+auth:
+  tenancy_model: "single_tenant"
+  authentication: ""
+  authorization: ""
+deployments:
+  targets:
+    - name: ""
+      platform: ""
+      language: ""
+      framework: ""
+  external_services:
+    service:
+      - name: ""
+        platform: ""
+        type: ""
+        type_name_ref: ""
+secrets_provider: ""
+domain-entities-and-relations: []
+integrations: []
+storage: []
+flows: []
+constraints: []
+design: []
+```
+
 ## Example
 
 ```
