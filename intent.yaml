@@ -24,7 +24,7 @@ deployments:
         platform: ""
         type: ""
         type_name_ref: ""
-secrets_provider: ""
+secrets-provider: ""
 domain-entities-and-relations: []
 integrations: []
 storage: []
