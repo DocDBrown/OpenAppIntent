@@ -56,13 +56,13 @@ deployments:
       platform: "fly-io"
       language: "typescript"
       framework: "fastify"
-external_services:
-  service:
-    - name: "slack"
-      platform: "slack"
-      type: "messaging"
-      type_name_ref: "slack-bolt-v3"
-secrets_provider: "env-var"
+  external-services:
+    service:
+      - name: "slack"
+        platform: "slack"
+        type: "messaging"
+        type_name_ref: "slack-bolt-v3"
+secrets-provider: "env-var"
 domain-entities-and-relations:
   - "entity:StandupEntry"
   - "attr:StandupEntry.yesterday:text"
