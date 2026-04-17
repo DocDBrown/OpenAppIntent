@@ -2,13 +2,16 @@
 
 ## Mandatory Fields
 
+```
 app-identity
 user-workflows
 auth
 deployments.targets
+```
 
 ## Optional Fields
 
+```
 deployments.external_services
 secrets-provider
 domain-entities-and-relations
@@ -17,6 +20,7 @@ storage
 flows
 constraints
 design
+```
 
 ## Example
 
