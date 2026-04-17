@@ -3,8 +3,8 @@
 ## Mandatory Fields
 
 ```
-app-identity
-user-workflows
+app_identity
+user_workflows
 auth
 deployments.targets
 ```
@@ -13,8 +13,8 @@ deployments.targets
 
 ```
 deployments.external_services
-secrets-provider
-domain-entities-and-relations
+secrets_provider
+domain_entities_and_relations
 integrations
 storage
 flows
@@ -25,7 +25,7 @@ design
 ## Example
 
 ```
-app-identity:
+app_identity:
   name: "team-standup-bot"
   purpose: "Collect daily standup updates from team members via Slack, store them, and post a summary to a designated channel at a configured time each day."
     validation:
@@ -34,7 +34,7 @@ app-identity:
       - "Bot posts formatted summary of all submissions to the configured channel at 9:30am"
       - "Team lead can view historical standups for any team member for the past 30 days"
       - "Admin can configure which channel receives the summary and what time it posts"
-user-workflows:
+user_workflows:
   - workflow: "Submit daily standup"
     steps:
       - "Team member types /standup in any Slack channel"
@@ -56,14 +56,14 @@ deployments:
       platform: "fly-io"
       language: "typescript"
       framework: "fastify"
-  external-services:
+  external_services:
     service:
       - name: "slack"
         platform: "slack"
         type: "messaging"
         type_name_ref: "slack-bolt-v3"
-secrets-provider: "env-var"
-domain-entities-and-relations:
+secrets_provider: "env-var"
+domain_entities_and_relations:
   - "entity:StandupEntry"
   - "attr:StandupEntry.yesterday:text"
   - "attr:StandupEntry.today:text"
