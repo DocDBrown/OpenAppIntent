@@ -24,7 +24,7 @@ design
 
 ## Example
 
-yaml```
+```
 app-identity:
   name: "team-standup-bot"
   purpose: "Collect daily standup updates from team members via Slack, store them, and post a summary to a designated channel at a configured time each day."
