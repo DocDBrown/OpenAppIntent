@@ -9,7 +9,7 @@ user-workflows:
   - workflow: ""
     steps: [""]
 auth:
-  tenancy_model: ""
+  tenancy-model: ""
   authentication: ""
   authorization: ""
 deployments:
@@ -18,12 +18,12 @@ deployments:
       platform: ""
       language: ""
       framework: ""
-  external_services:
+  external-services:
     service:
       - name: ""
         platform: ""
         type: ""
-        type_name_ref: ""
+        type-name-ref: ""
 secrets-provider: ""
 domain-entities-and-relations: []
 integrations: []
