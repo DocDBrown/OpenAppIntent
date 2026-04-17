@@ -1,5 +1,5 @@
-# Intent Driven Devlopment Yaml Spec
-
+# OpenAppIntent Format
+- Intent Driven Devlopment Yaml Spec
 ## Mandatory Fields
 
 ```
