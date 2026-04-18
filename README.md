@@ -22,6 +22,7 @@ storage
 flows
 constraints
 design
+assets
 ```
 
 ## Base Format
@@ -63,6 +64,7 @@ storage: []
 flows: []
 constraints: []
 design: []
+assets: []
 ```
 
 ## Example
