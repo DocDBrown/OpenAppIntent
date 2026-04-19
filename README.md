@@ -73,14 +73,14 @@ assets: []
 ```
 app_identity:
   name: "recipe-journal"
-purpose: "A personal recipe journal where home cooks can save recipes, tag them by cuisine, and share read-only links with friends. Frontend is a React SPA; backend is a Go REST API."
-validation:
-  acceptance:
-    - "User can create a recipe with title, ingredients list, and instructions; POST /api/recipes returns 201 with {\"id\":\"<uuid>\",\"status\":\"created\"}"
-    - "User can list their own recipes; GET /api/recipes returns 200 with {\"recipes\":[...],\"total\":<int>}"
-    - "User can fetch a shared recipe by share_token; GET /api/shared/{token} returns 200 with the recipe JSON or 404"
-    - "Frontend recipe list page renders within 1500ms on a 3G connection"
-    - "All pages meet WCAG 2.1 AA contrast ratio requirements"
+  purpose: "A personal recipe journal where home cooks can save recipes, tag them by cuisine, and share read-only links with friends. Frontend is a React SPA; backend is a Go REST API."
+  validation:
+    acceptance:
+      - "User can create a recipe with title, ingredients list, and instructions; POST /api/recipes returns 201 with {\"id\":\"<uuid>\",\"status\":\"created\"}"
+      - "User can list their own recipes; GET /api/recipes returns 200 with {\"recipes\":[...],\"total\":<int>}"
+      - "User can fetch a shared recipe by share_token; GET /api/shared/{token} returns 200 with the recipe JSON or 404"
+      - "Frontend recipe list page renders within 1500ms on a 3G connection"
+      - "All pages meet WCAG 2.1 AA contrast ratio requirements"
 user-workflows:
   - workflow: "save recipe"
     steps:
