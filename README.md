@@ -71,68 +71,81 @@ assets: []
 
 ```
 app_identity:
-  name: "team-standup-bot"
-  purpose: "Collect daily standup updates from team members via Slack, store them, and post a summary to a designated channel at a configured time each day."
-    validation:
-    acceptance:
-      - "Team member can submit standup update via Slack slash command with yesterday/today/blockers fields"
-      - "Bot posts formatted summary of all submissions to the configured channel at 9:30am"
-      - "Team lead can view historical standups for any team member for the past 30 days"
-      - "Admin can configure which channel receives the summary and what time it posts"
-user_workflows:
-  - workflow: "Submit daily standup"
+  name: "recipe-journal"
+purpose: "A personal recipe journal where home cooks can save recipes, tag them by cuisine, and share read-only links with friends. Frontend is a React SPA; backend is a Go REST API."
+validation:
+  acceptance:
+    - "User can create a recipe with title, ingredients list, and instructions; POST /api/recipes returns 201 with {\"id\":\"<uuid>\",\"status\":\"created\"}"
+    - "User can list their own recipes; GET /api/recipes returns 200 with {\"recipes\":[...],\"total\":<int>}"
+    - "User can fetch a shared recipe by share_token; GET /api/shared/{token} returns 200 with the recipe JSON or 404"
+    - "Frontend recipe list page renders within 1500ms on a 3G connection"
+    - "All pages meet WCAG 2.1 AA contrast ratio requirements"
+user-workflows:
+  - workflow: "save recipe"
     steps:
-      - "Team member types /standup in any Slack channel"
-      - "Bot opens a modal with fields for yesterday, today, and blockers"
-      - "Team member fills in fields and submits"
-      - "Bot confirms submission with an ephemeral message"
-  - workflow: "View standup history"
+      - "User opens the recipe editor in the frontend"
+      - "User fills in title, ingredients, and instructions then clicks Save"
+      - "Frontend posts the recipe to the backend and receives a confirmation"
+      - "Frontend shows a success toast and navigates to the recipe detail page"
+  - workflow: "share recipe"
     steps:
-      - "Team lead types /standup-history @username"
-      - "Bot responds with the last 5 standups from that user in an ephemeral message"
-      - "Team lead can page through older entries"
+      - "User opens a recipe they own and clicks Share"
+      - "Frontend requests a share_token from the backend"
+      - "Frontend displays the share URL for the user to copy"
 auth:
-  tenancy_model: "multi-tenant"
-  authentication: "oauth2-oidc"
-  authorization: "rbac"
+  tenancy_model: "single_tenant"
+  authentication: "session_cookie"
+  authorization: "owner_only"
 deployments:
   targets:
-    - name: "standup-api"
-      platform: "fly-io"
-      language: "typescript"
-      framework: "fastify"
-  external_services:
-    service:
-      - name: "slack"
-        platform: "slack"
-        type: "messaging"
-        type_name_ref: "slack-bolt-v3"
-secrets_provider: "env-var"
-domain_entities_and_relations:
-  - "entity:StandupEntry"
-  - "attr:StandupEntry.yesterday:text"
-  - "attr:StandupEntry.today:text"
-  - "attr:StandupEntry.blockers:text"
-  - "attr:StandupEntry.submitted_at:timestamp"
-  - "rel:StandupEntry.belongs_to:User"
-  - "rel:StandupEntry.belongs_to:Team"
-  - "entity:Team"
-  - "attr:Team.slack_channel_id:string"
-  - "attr:Team.summary_post_time:time"
-  - "rel:Team.has_many:User"
-  - "rel:Team.has_many:StandupEntry"
+    - name: "recipe-web"
+      platform: "web_frontend_app"
+      language: "react-vite"
+      framework: "react"
+    - name: "recipe-api"
+      platform: "backend_service"
+      language: "go"
+      framework: "net/http"
+external_services:
+  service: []
+secrets_provider: "env_var"
+domain-entities-and-relations:
+  - "entity:Recipe"
+  - "attr:Recipe.id:uuid"
+  - "attr:Recipe.title:string"
+  - "attr:Recipe.ingredients:text"
+  - "attr:Recipe.instructions:text"
+  - "attr:Recipe.cuisine_tag:string"
+  - "attr:Recipe.share_token:string"
+  - "attr:Recipe.created_at:timestamp"
+  - "rel:Recipe.belongs_to:User"
   - "entity:User"
-  - "attr:User.slack_user_id:string"
-  - "attr:User.display_name:string"
-  - "attr:User.role:enum(member,lead,admin)"
-  - "rel:User.belongs_to:Team"
-  - "rel:User.has_many:StandupEntry"
-storage:
-  - "store:primary-db|type:postgresql|endpoint:postgres://primary-db.default.svc.cluster.local:5432/standups|endpoint_env:DATABASE_URL|purpose:Standup entries, teams, and users|entities:StandupEntry,Team,User|owned_by:standup-api|read_by:standup-api|write_by:standup-api"
+  - "attr:User.id:uuid"
+  - "attr:User.email:string"
+  - "rel:User.has_many:Recipe"
 integrations:
-  - "from:standup-api|to:slack|type:sync|protocol:rest|direction:request-response|endpoint:https://slack.com/api|endpoint_env:SLACK_API_URL"
-  - "from:standup-api|to:keycloak|type:sync|protocol:oidc|direction:request-response|endpoint:http://keycloak.keycloak.svc.cluster.local:8080|endpoint_env:KEYCLOAK_BASE_URL"
+  - "from:recipe-web|to:recipe-api|type:sync|protocol:rest|direction:request-response|endpoint:https://api.recipe-journal.local|endpoint_env:RECIPE_API_URL|spec_ref:recipe-api.v1"
+storage:
+  - "store:recipes-db|type:postgresql|endpoint:postgres://recipes-db:5432/recipes|endpoint_env:DATABASE_URL|purpose:Recipes and users|entities:Recipe,User|owned_by:recipe-api|read_by:recipe-api|write_by:recipe-api"
 flows:
-  - "flow:daily-summary-post|trigger:cron:team.summary_post_time|step:Query all standup entries for today for the team|step:Format entries into Slack block kit message|step:Post summary to team.slack_channel_id"
-
+  - "flow:create-recipe|trigger:user-action|step:Frontend validates form fields client-side|step:Frontend sends POST /api/recipes with session cookie|step:Backend persists Recipe row|step:Backend returns {\"id\":\"<uuid>\",\"status\":\"created\"}"
+  - "flow:share-recipe|trigger:user-action|step:Frontend sends POST /api/recipes/{id}/share|step:Backend generates share_token and updates the Recipe row|step:Backend returns {\"share_url\":\"https://recipe-journal.local/shared/<token>\"}"
+constraints:
+  - "All API responses must use application/json content-type"
+  - "Session cookies must be Secure, HttpOnly, SameSite=Lax"
+  - "Frontend bundle size must not exceed 250KB gzipped"
+  - "Recipe list page must render within 1500ms on a 3G connection"
+design:
+  - "Primary color: #2E7D5B (forest green)"
+  - "Secondary color: #F5E6D3 (warm cream)"
+  - "Typography: Inter for UI text, Playfair Display for recipe titles"
+  - "Spacing scale: 4px base unit (4, 8, 16, 24, 32, 48, 64)"
+  - "Border radius: 8px for cards, 4px for buttons and inputs"
+  - "Dark mode support with system preference detection"
+assets:
+  - "asset:logo|path:public/logo.svg|kind:svg|serves:recipe-web"
+  - "asset:favicon|path:public/favicon.ico|kind:icon|serves:recipe-web"
+  - "asset:hero-image|path:public/images/hero.webp|kind:image|serves:recipe-web"
+  - "asset:inter-font|path:public/fonts/Inter-Variable.woff2|kind:font|serves:recipe-web"
+  - "asset:playfair-font|path:public/fonts/PlayfairDisplay-Variable.woff2|kind:font|serves:recipe-web"
 ```
