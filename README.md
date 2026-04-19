@@ -51,6 +51,7 @@ deployments:
       platform: ""
       language: ""
       framework: ""
+      deployment: ""
   external_services:
     service:
       - name: ""
@@ -102,10 +103,12 @@ deployments:
       platform: "web_frontend_app"
       language: "react-vite"
       framework: "react"
+      deployment: "gitea.bossintent.com.au"
     - name: "recipe-api"
       platform: "backend_service"
       language: "go"
       framework: "net/http"
+      deployment: "gitea.bossintent.com.au"
 external_services:
   service: []
 secrets_provider: "env_var"
