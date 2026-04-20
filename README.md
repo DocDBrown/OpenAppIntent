@@ -51,6 +51,7 @@ deployments:
       platform: ""
       language: ""
       framework: ""
+      middleware: []
       deployment: ""
   external_services:
     service:
@@ -103,11 +104,13 @@ deployments:
       platform: "web_frontend_app"
       language: "react-vite"
       framework: "react"
+      middleware: []
       deployment: "gitea.bossintent.com.au"
     - name: "recipe-api"
       platform: "backend_service"
       language: "go"
       framework: "net/http"
+      middleware: []
       deployment: "gitea.bossintent.com.au"
 external_services:
   service: []
