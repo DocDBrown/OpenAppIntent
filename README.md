@@ -113,7 +113,13 @@ deployments:
       middleware: []
       deployment: "gitea.bossintent.com.au"
 external_services:
-  service: []
+  service:
+    - name: "<kebab-case-name>"
+      platform: "saas|self_hosted|on_premise|cloud_managed|partner_api"
+      type: "<semantic-type>"
+      type_name_ref: "<stable-contract-ref>"
+      endpoints:
+        - "endpoint:<local-ref>|method:<verb>|path:<path>|protocol:<proto>|direction:<dir>|auth:<scheme>|scopes:<csv>|request:<key:type,...>|response:<key:type,...>|payload:<key:type,...>|status_codes:<csv>|rate_limit:<rpm>|idempotent:<bool>|timeout_ms:<int>|retry_policy:<policy>|content_type:<mime>|endpoint_url:<url>|endpoint_env:<env-var>|spec_ref:<global-ref>|version:<semver>"
 secrets_provider: "env_var"
 domain-entities-and-relations:
   - "entity:Recipe"
