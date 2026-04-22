@@ -59,6 +59,7 @@ deployments:
         platform: ""
         type: ""
         type_name_ref: ""
+        endpoints: []
 secrets_provider: ""
 domain-entities-and-relations: []
 integrations: []
