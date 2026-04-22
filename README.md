@@ -144,14 +144,15 @@ constraints:
 design:
   - "Primary color: #2E7D5B (forest green)"
   - "Secondary color: #F5E6D3 (warm cream)"
-  - "Typography: Inter for UI text, Playfair Display for recipe titles"
+  - "Typography: Inter for UI text, Playfair Display for recipe titles | consumes:asset:inter-font,asset:playfair-font"
   - "Spacing scale: 4px base unit (4, 8, 16, 24, 32, 48, 64)"
   - "Border radius: 8px for cards, 4px for buttons and inputs"
   - "Dark mode support with system preference detection"
+  - "Header displays app logo at 32px height on the left | consumes:asset:logo"
+  - "Landing page hero uses full-width food photography with title overlay | consumes:asset:hero-image"
 assets:
-  - "asset:logo|path:public/logo.svg|kind:svg|serves:recipe-web"
-  - "asset:favicon|path:public/favicon.ico|kind:icon|serves:recipe-web"
-  - "asset:hero-image|path:public/images/hero.webp|kind:image|serves:recipe-web"
-  - "asset:inter-font|path:public/fonts/Inter-Variable.woff2|kind:font|serves:recipe-web"
-  - "asset:playfair-font|path:public/fonts/PlayfairDisplay-Variable.woff2|kind:font|serves:recipe-web"
-```
+  - "asset:logo|path:public/logo.svg|kind:svg|serves:recipe-web|placement:global.header|usage:render:inline-svg;alt:recipe-journal logo;preload:true"
+  - "asset:favicon|path:public/favicon.ico|kind:icon|serves:recipe-web|placement:global.meta|usage:render:favicon"
+  - "asset:hero-image|path:public/images/hero.webp|kind:image|serves:recipe-web|placement:page:landing.hero|usage:render:background-image;breakpoint:768-9999;alt:assorted home-cooked dishes;lazy:false;preload:true"
+  - "asset:inter-font|path:public/fonts/Inter-Variable.woff2|kind:font|serves:recipe-web|placement:global.font-face|usage:render:font-face;font-family:Inter;font-weight:100-900;preload:true"
+  - "asset:playfair-font|path:public/fonts/PlayfairDisplay-Variable.woff2|kind:font|serves:recipe-web|placement:global.font-face|usage:render:font-face;font-family:Playfair Display;font-weight:400-900;preload:true"```
