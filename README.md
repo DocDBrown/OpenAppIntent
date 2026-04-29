@@ -1,6 +1,7 @@
 # OpenAppIntent Format
 - Intent Driven Devlopment Yaml Spec
-- For Application Level Intent Driven Devlopment 
+- For Application Level Intent Driven Devlopment
+- Used to compress optional subkeys to simplify yaml for LLM operations
   
 ## Mandatory Fields
 
